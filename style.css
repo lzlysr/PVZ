@@ -1,0 +1,518 @@
+:root {
+  --soil: #7b5a36;
+  --grass-a: #68b94f;
+  --grass-b: #58a942;
+  --grass-c: #78c962;
+  --leaf: #277e3c;
+  --pea: #80d856;
+  --sun: #ffd247;
+  --ink: #20311e;
+  --panel: #fff7d8;
+  --panel-border: #d6aa58;
+  --danger: #a64937;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0)),
+    linear-gradient(135deg, #bfe979 0%, #85c96b 45%, #6bb7a2 100%);
+}
+
+button {
+  font: inherit;
+}
+
+.game-shell {
+  width: min(1120px, calc(100vw - 24px));
+  margin: 0 auto;
+  padding: 18px 0 24px;
+}
+
+.top-bar,
+.plant-tray,
+.status-strip {
+  border: 3px solid var(--panel-border);
+  background: var(--panel);
+  box-shadow: 0 5px 0 rgba(95, 71, 38, 0.28);
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px 16px;
+  border-radius: 8px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  flex: 0 0 52px;
+  width: 52px;
+  height: 52px;
+  border: 3px solid #e1a936;
+  border-radius: 50%;
+  color: #8b5b00;
+  background: #ffd85c;
+  font-size: 29px;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(22px, 3vw, 34px);
+  line-height: 1.1;
+}
+
+p {
+  margin: 5px 0 0;
+  color: #536246;
+  font-size: 14px;
+}
+
+.hud {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.sun-meter,
+.wave-label,
+.restart-button {
+  min-height: 42px;
+  border: 2px solid rgba(85, 60, 25, 0.25);
+  border-radius: 7px;
+  background: #fffdf0;
+}
+
+.sun-meter {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 94px;
+  padding: 6px 12px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.sun-icon {
+  color: #e0a600;
+}
+
+.wave-label {
+  display: grid;
+  place-items: center;
+  min-width: 84px;
+  padding: 6px 12px;
+  font-weight: 700;
+}
+
+.restart-button {
+  cursor: pointer;
+  padding: 6px 14px;
+  color: #fffdf0;
+  background: #487c3e;
+  border-color: #2d5928;
+  font-weight: 800;
+}
+
+.plant-tray {
+  display: flex;
+  gap: 12px;
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.plant-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 174px;
+  min-width: 174px;
+  min-height: 74px;
+  cursor: pointer;
+  border: 3px solid #b98b42;
+  border-radius: 8px;
+  color: var(--ink);
+  background: #f8e6a4;
+}
+
+.plant-card.selected {
+  border-color: #315e2f;
+  outline: 3px solid #fff;
+  background: #d9f19c;
+}
+
+.plant-card.disabled {
+  cursor: not-allowed;
+  filter: grayscale(0.75);
+  opacity: 0.62;
+}
+
+.plant-art {
+  position: relative;
+  flex: 0 0 46px;
+  width: 46px;
+  height: 46px;
+}
+
+.plant-info {
+  display: grid;
+  gap: 3px;
+  text-align: left;
+}
+
+.plant-info strong {
+  font-size: 16px;
+}
+
+.plant-info small {
+  color: #684f26;
+  font-weight: 700;
+}
+
+.status-strip {
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.lawn-frame {
+  position: relative;
+  margin-top: 16px;
+  padding: 14px 18px 18px;
+  border: 7px solid var(--soil);
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.14), transparent 14%, transparent 86%, rgba(0, 0, 0, 0.13)),
+    #916437;
+  box-shadow: 0 14px 30px rgba(48, 61, 35, 0.24);
+  overflow: hidden;
+}
+
+.game-board {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 5;
+  min-height: 360px;
+  border: 4px solid #426e32;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #65b84e;
+}
+
+.cell {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(34, 91, 35, 0.35);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 45%),
+    var(--grass-a);
+}
+
+.cell:nth-child(odd) {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 45%),
+    var(--grass-b);
+}
+
+.cell:hover {
+  box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.42);
+}
+
+.cell.occupied {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.16), transparent 42%),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(35, 88, 32, 0.18) 0,
+      rgba(35, 88, 32, 0.18) 8px,
+      rgba(255, 240, 130, 0.12) 8px,
+      rgba(255, 240, 130, 0.12) 16px
+    ),
+    #5aaa45;
+  box-shadow: inset 0 0 0 3px rgba(255, 226, 125, 0.82);
+}
+
+.cell.occupied:hover {
+  box-shadow:
+    inset 0 0 0 3px rgba(255, 226, 125, 0.82),
+    inset 0 0 0 6px rgba(125, 75, 28, 0.26);
+}
+
+.entity {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.plant {
+  width: 66px;
+  height: 72px;
+  z-index: 4;
+}
+
+.sunflower,
+.sunflower-preview {
+  position: relative;
+}
+
+.sunflower::before,
+.sunflower-preview::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 13%;
+  width: 34px;
+  height: 34px;
+  border: 8px dotted #f3bd32;
+  border-radius: 50%;
+  background: #7a4c1d;
+  transform: translateX(-50%);
+}
+
+.sunflower::after,
+.sunflower-preview::after,
+.peashooter::after,
+.peashooter-preview::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 3px;
+  width: 10px;
+  height: 32px;
+  border-radius: 8px;
+  background: #2f8d44;
+  transform: translateX(-50%);
+  box-shadow: -12px 12px 0 -2px #3ca253, 12px 12px 0 -2px #3ca253;
+}
+
+.peashooter::before,
+.peashooter-preview::before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 14px;
+  width: 34px;
+  height: 28px;
+  border-radius: 50% 45% 45% 50%;
+  background: #4dab44;
+  box-shadow: 23px 4px 0 -2px #3e9138;
+}
+
+.peashooter .eye {
+  position: absolute;
+  left: 31px;
+  top: 21px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10270f;
+  z-index: 2;
+}
+
+.sunflower-preview::before {
+  top: 0;
+  width: 22px;
+  height: 22px;
+  border-width: 6px;
+}
+
+.sunflower-preview::after,
+.peashooter-preview::after {
+  height: 20px;
+}
+
+.peashooter-preview::before {
+  left: 5px;
+  top: 6px;
+  width: 24px;
+  height: 20px;
+  box-shadow: 15px 3px 0 -2px #3e9138;
+}
+
+.zombie {
+  width: 42px;
+  height: 58px;
+  z-index: 5;
+}
+
+.zombie::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 0;
+  width: 25px;
+  height: 27px;
+  border: 2px solid #4f6b57;
+  border-radius: 45% 45% 38% 38%;
+  background: #98ad96;
+  box-shadow: inset 6px -5px 0 rgba(70, 87, 70, 0.18);
+}
+
+.zombie::after {
+  content: "";
+  position: absolute;
+  left: 13px;
+  top: 25px;
+  width: 21px;
+  height: 27px;
+  border-radius: 6px 6px 3px 3px;
+  background: #6e5143;
+  box-shadow: -7px 6px 0 -3px #98ad96, 10px 5px 0 -4px #98ad96, -3px 27px 0 -3px #3f4e64, 9px 27px 0 -3px #3f4e64;
+}
+
+.zombie .face {
+  position: absolute;
+  left: 17px;
+  top: 10px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #1e2b21;
+  z-index: 2;
+  box-shadow: 10px 1px 0 #1e2b21;
+}
+
+.pea {
+  width: 17px;
+  height: 17px;
+  border: 3px solid #3f9b39;
+  border-radius: 50%;
+  background: var(--pea);
+  z-index: 6;
+}
+
+.sun-drop {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  cursor: pointer;
+  border: 4px dotted #edae21;
+  border-radius: 50%;
+  color: #7b5000;
+  background: var(--sun);
+  box-shadow: 0 3px 8px rgba(93, 65, 21, 0.25);
+  font-weight: 900;
+  z-index: 8;
+  transform: translate(-50%, -50%);
+}
+
+.health-bar {
+  position: absolute;
+  left: 50%;
+  top: -8px;
+  width: 42px;
+  height: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translateX(-50%);
+  overflow: hidden;
+}
+
+.health-fill {
+  height: 100%;
+  background: #de4e3d;
+}
+
+.message-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  color: #fffbea;
+  background: rgba(33, 50, 29, 0.72);
+  z-index: 20;
+  text-align: center;
+}
+
+.message-overlay.hidden {
+  display: none;
+}
+
+.message-card {
+  max-width: 430px;
+  padding: 22px;
+  border: 3px solid #ffe18a;
+  border-radius: 8px;
+  background: rgba(59, 89, 48, 0.92);
+}
+
+.message-card h2 {
+  margin: 0 0 8px;
+  font-size: 30px;
+}
+
+.message-card p {
+  margin: 0;
+  color: #fff6c9;
+}
+
+@media (max-width: 720px) {
+  .game-shell {
+    width: min(100vw - 14px, 1120px);
+    padding-top: 8px;
+  }
+
+  .top-bar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .hud {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .plant-tray {
+    padding: 9px;
+  }
+
+  .plant-card {
+    width: 158px;
+    min-width: 158px;
+  }
+
+  .lawn-frame {
+    padding: 8px;
+  }
+
+  .game-board {
+    min-height: 300px;
+  }
+
+  .plant {
+    width: 52px;
+    height: 58px;
+  }
+
+  .zombie {
+    width: 36px;
+    height: 50px;
+  }
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>迷你植物防线</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="game-shell">
+    <header class="top-bar">
+      <div class="brand">
+        <span class="brand-mark">☀</span>
+        <div>
+          <h1>迷你植物防线</h1>
+          <p>守住五条草坪，撑过僵尸波次</p>
+        </div>
+      </div>
+      <div class="hud">
+        <div class="sun-meter">
+          <span class="sun-icon">☀</span>
+          <span id="sun-count">150</span>
+        </div>
+        <div id="wave-label" class="wave-label">第 1 波</div>
+        <button id="restart-button" class="restart-button" type="button">重新开始</button>
+      </div>
+    </header>
+
+    <section class="plant-tray" aria-label="植物选择">
+      <button class="plant-card selected" type="button" data-plant="sunflower">
+        <span class="plant-art sunflower-preview"></span>
+        <span class="plant-info">
+          <strong>向日葵</strong>
+          <small>50 阳光</small>
+        </span>
+      </button>
+      <button class="plant-card" type="button" data-plant="peashooter">
+        <span class="plant-art peashooter-preview"></span>
+        <span class="plant-info">
+          <strong>豌豆射手</strong>
+          <small>100 阳光</small>
+        </span>
+      </button>
+    </section>
+
+    <section class="status-strip" aria-live="polite">
+      <span id="status-text">选择植物，再点击草坪格子种植。</span>
+    </section>
+
+    <section class="lawn-frame">
+      <div id="game-board" class="game-board" aria-label="草坪战场"></div>
+    </section>
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>
